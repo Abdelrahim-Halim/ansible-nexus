@@ -1,0 +1,16 @@
+---
+- hosts: web
+  user: ec2-user
+  become: true
+  tasks:
+    - name: ensure nginx is at the latest version
+      yum: name=nginx state=latest
+      become: yes
+    - name: start nginx
+      service:
+          name: nginx
+          state: started
+    - name: copy the content of the web site
+      copy:
+        src: /home/halim/python-project/fundraiser/home/templates/home/home.html
+        dest: /usr/share/nginx/html/
